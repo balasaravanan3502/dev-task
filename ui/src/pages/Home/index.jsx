@@ -111,7 +111,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let params = "?";
+      let params = "";
       if (searchParams.get("title")) {
         params += "title=" + searchParams.get("title") + "&";
         setTitleInput(searchParams.get("title"));
@@ -126,7 +126,6 @@ const Home = () => {
         params += "from=" + searchParams.get("from") + "&";
       if (searchParams.get("to"))
         params += "to=" + searchParams.get("to") + "&";
-
       const response = await fetch(
         `https://ui-task-vpbs.herokuapp.com/book${params}`
       );
@@ -146,7 +145,7 @@ const Home = () => {
   const gotoNext = () => {
     setPageNumber(Math.min(numberOfPages - 1, pageNumber + 1));
   };
-
+  console.log(data && data.total);
   return (
     <div className="home">
       <div className="home_wrapper">
@@ -165,16 +164,9 @@ const Home = () => {
             applyFilter={applyFilter}
           />
         </div>
-        {data && data.books.length > 0 ? (
+        {data && data.total > 0 ? (
           <div className="list_wrapper">
             <BookList books={data} />
-            <button onClick={gotoPrevious}>Previous</button>
-            {pages.map((pageIndex) => (
-              <button key={pageIndex} onClick={() => setPageNumber(pageIndex)}>
-                {pageIndex + 1}
-              </button>
-            ))}
-            <button onClick={gotoNext}>Next</button>
           </div>
         ) : (
           <div>No data found</div>
