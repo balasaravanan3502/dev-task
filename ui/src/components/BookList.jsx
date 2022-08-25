@@ -4,11 +4,12 @@ import BookCard from "./BookCard";
 import "./BookList.css";
 
 const BookList = ({ books }) => {
+  console.log(books);
   return (
     <div>
-      <h1>Total Books Available : {books.length}</h1>
+      <h1>Total Books Available : {books.total}</h1>
       <div className="wrapper">
-        {books.map((book, index) => (
+        {books.books.map((book, index) => (
           <BookCard data={book} key={index} />
         ))}
       </div>

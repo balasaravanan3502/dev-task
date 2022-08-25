@@ -19,17 +19,22 @@ const Home = () => {
   const [toDate, setToDate] = useState(Date.now());
   const [data, setData] = useState();
 
+  const [pageNumber, setPageNumber] = useState(0);
+  const [numberOfPages, setNumberOfPages] = useState(0);
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
+  const pages = new Array(numberOfPages).fill(null).map((v, i) => i);
+
   const handleSubjectChecked = (id) => {
-    const cusinesStateList = subjectSelected;
+    const subjectList = subjectSelected;
     console.log(id);
-    const changeCheckedCuisines = cusinesStateList.map((item) =>
+    const subjects = subjectList.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
     );
-    setSubjectSelected(changeCheckedCuisines);
+    setSubjectSelected(subjects);
   };
 
   const applyFilter = () => {
@@ -67,7 +72,7 @@ const Home = () => {
 
     const fetchData = async () => {
       const response = await fetch(
-        `https://ui-task-vpbs.herokuapp.com/book${params}`
+        `https://ui-task-vpbs.herokuapp.com/${params}`
       );
       const newData = await response.json();
       console.log(newData);
@@ -107,10 +112,14 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       let params = "?";
-      if (searchParams.get("title"))
+      if (searchParams.get("title")) {
         params += "title=" + searchParams.get("title") + "&";
-      if (searchParams.get("author"))
-        params += "author=" + searchParams.get("title") + "&";
+        setTitleInput(searchParams.get("title"));
+      }
+      if (searchParams.get("author")) {
+        params += "author=" + searchParams.get("author") + "&";
+        setAuthorInput(searchParams.get("author"));
+      }
       if (searchParams.get("subjects"))
         params += "subjects=" + searchParams.get("subjects") + "&";
       if (searchParams.get("from"))
@@ -119,15 +128,24 @@ const Home = () => {
         params += "to=" + searchParams.get("to") + "&";
 
       const response = await fetch(
-        `https://ui-task-vpbs.herokuapp.com/book${params}`  
+        `https://ui-task-vpbs.herokuapp.com/${params}`
       );
       const newData = await response.json();
       console.log(newData);
       setData(newData);
+      console.log(newData["total"]);
     };
 
     fetchData();
   }, []);
+
+  const gotoPrevious = () => {
+    setPageNumber(Math.max(0, pageNumber - 1));
+  };
+
+  const gotoNext = () => {
+    setPageNumber(Math.min(numberOfPages - 1, pageNumber + 1));
+  };
 
   return (
     <div className="home">
@@ -147,9 +165,16 @@ const Home = () => {
             applyFilter={applyFilter}
           />
         </div>
-        {data && data.length > 0 ? (
+        {data && data.books.length > 0 ? (
           <div className="list_wrapper">
             <BookList books={data} />
+            <button onClick={gotoPrevious}>Previous</button>
+            {pages.map((pageIndex) => (
+              <button key={pageIndex} onClick={() => setPageNumber(pageIndex)}>
+                {pageIndex + 1}
+              </button>
+            ))}
+            <button onClick={gotoNext}>Next</button>
           </div>
         ) : (
           <div>No data found</div>
