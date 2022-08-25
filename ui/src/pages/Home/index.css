@@ -1,0 +1,25 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.home_wrapper {
+  display: flex;
+  flex: 1;
+}
+
+@media only screen and (max-width: 570px) {
+  .home_wrapper {
+    display: grid;
+  }
+}
+
+.panel_wrapper {
+  flex-basis: 220px;
+  padding: 1.7rem;
+}
+
+.list_wrapper {
+  flex: 1;
+}

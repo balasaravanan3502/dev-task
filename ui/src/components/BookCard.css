@@ -1,0 +1,30 @@
+.item {
+  margin-bottom: 2rem;
+  width: 80%;
+}
+
+.item img {
+  width: 95%;
+  border-radius: 15px;
+  height: 280px;
+  margin: auto;
+  margin-bottom: 0.7rem;
+  display: block;
+}
+
+.item header {
+  width: 90%;
+  margin: auto;
+}
+
+.item footer {
+  width: 90%;
+  margin: auto;
+  margin-top: 0.2rem;
+  display: flex;
+}
+
+.item span {
+  margin-right: 3rem;
+  color: gray;
+}
