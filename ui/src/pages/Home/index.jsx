@@ -72,7 +72,7 @@ const Home = () => {
 
     const fetchData = async () => {
       const response = await fetch(
-        `https://ui-task-vpbs.herokuapp.com/${params}`
+        `https://ui-task-vpbs.herokuapp.com/book${params}`
       );
       const newData = await response.json();
       console.log(newData);
@@ -128,7 +128,7 @@ const Home = () => {
         params += "to=" + searchParams.get("to") + "&";
 
       const response = await fetch(
-        `https://ui-task-vpbs.herokuapp.com/${params}`
+        `https://ui-task-vpbs.herokuapp.com/book${params}`
       );
       const newData = await response.json();
       console.log(newData);
