@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -21,13 +21,23 @@ const SidePanel = ({
   toDate,
   changeToDate,
   applyFilter,
+  fetchData,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className="panel">
       <div className="mainLogo">
-        <Link to="/" style={{ textDecoration: "none" }} className="mainLogo">
+        <div
+          to="/"
+          style={{ textDecoration: "none" }}
+          className="mainLogo"
+          onClick={async () => {
+            navigate("/");
+            fetchData();
+          }}
+        >
           Library
-        </Link>
+        </div>
       </div>
       <div className="input_group">
         <p className="label">Title</p>
@@ -79,7 +89,16 @@ const SidePanel = ({
           renderInput={(params) => <TextField {...params} />}
         />
       </div>
-      <Button variant="contained" onClick={applyFilter}>
+      <Button
+        variant="contained"
+        onClick={applyFilter}
+        style={{
+          borderRadius: 35,
+          backgroundColor: "#000000",
+          padding: "14px 30px",
+          fontSize: "15px",
+        }}
+      >
         Apply Filter
       </Button>
     </div>

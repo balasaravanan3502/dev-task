@@ -3,13 +3,12 @@ import BookCard from "./BookCard";
 
 import "./BookList.css";
 
-const BookList = ({ books }) => {
-  console.log(books);
+const BookList = ({ data }) => {
   return (
     <div>
-      <h1>Total Books Available : {books.total}</h1>
+      <h1>Total Books Available : {data.count}</h1>
       <div className="wrapper">
-        {books.books.map((book, index) => (
+        {data.books.map((book, index) => (
           <BookCard data={book} key={index} />
         ))}
       </div>

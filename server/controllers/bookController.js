@@ -14,7 +14,6 @@ export const createBook = async (req, res, next) => {
 export const getBooks = async (req, res, next) => {
   let params = req.query;
   let query = {};
-  console.log(params);
   if (params["title"]) {
     query["title"] = { $regex: new RegExp(params["title"], "i") };
   }
@@ -22,20 +21,27 @@ export const getBooks = async (req, res, next) => {
   if (params["author"]) {
     query["author"] = { $regex: new RegExp(params["author"], "i") };
   }
-
-  console.log(query);
-  let books = await Books.find(query);
-
+  let sub = [];
+  let subjectChecked = [];
   if (params["subjects"]) {
-    let subjectChecked = params["subjects"].split(",");
-    let subj = subjectChecked.map((sub) => sub.toLowerCase());
+    subjectChecked = params["subjects"].split(",");
 
-    books = books.filter((book) => subj.includes(book.subject.toLowerCase()));
+    subjectChecked.forEach((s) => {
+      sub.push({ subjects: s });
+    });
+  } else {
+    subjectChecked = ["English", "Science", "Social", "Maths"];
   }
 
-  console.log(query);
+  let page = parseInt(params["page"]) - 1;
+
+  let count = await Books.count({ ...query, subject: { $in: subjectChecked } });
+  let books = await Books.find({ ...query, subject: { $in: subjectChecked } })
+    .limit(10)
+    .skip(page * 10);
+
   try {
-    res.status(200).json(books);
+    res.status(200).json({ count, books });
   } catch (err) {
     next(err);
   }

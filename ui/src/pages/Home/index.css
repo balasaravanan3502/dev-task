@@ -16,10 +16,21 @@
 }
 
 .panel_wrapper {
-  flex-basis: 220px;
+  flex-basis: 270px;
   padding: 1.7rem;
 }
 
 .list_wrapper {
   flex: 1;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination li {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
 }

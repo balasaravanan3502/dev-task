@@ -1,7 +1,9 @@
 .panel {
   border-right: 0.1rem solid rgba(0, 0, 0, 0.29);
+  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.29);
+
   padding-right: 2rem;
-  padding-bottom: 1rem;
+  padding-bottom: 3rem;
 }
 
 .mainLogo {
